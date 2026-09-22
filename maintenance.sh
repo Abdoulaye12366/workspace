@@ -8,3 +8,10 @@ echo -e "\n[2/2] Verification de l'espace disque de l'appareil..."
 df -h | grep "/data"
 
 echo -e "\n✅ Maintenance terminee avec succes, Habi !"
+#!/bin/bash
+echo "=== Début de la maintenance Termux ==="
+pkg clean
+pkg autoremove -y
+echo "=== Nettoyage terminé ==="
+echo "Espace disque restant :"
+df -h /data
