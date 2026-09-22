@@ -1,27 +1,30 @@
 import requests
 from bs4 import BeautifulSoup
 
-print("--- ROBOT DE SCRAPING AVANCE ---")
-url = "https://google.com"
+print("--- ROBOT D'EXPLORATION DE LIENS ---")
+url = "https://example.com"  # Vous pouvez changer pour un autre site
 
-print(f"Connexion au site {url}...")
+print(f"Connexion et analyse de {url}...")
 html_recupere = requests.get(url)
 analyse = BeautifulSoup(html_recupere.text, 'html.parser')
 
-balise_h1 = analyse.find('h1')
-titre_onglet = analyse.title.text if analyse.title else "Aucun titre"
+# Trouver toutes les balises de liens <a>
+liens = analyse.find_all('a')
 
-# Préparation du texte à sauvegarder
-donnees_a_enregistrer = f"Résultats du scraping pour {url} :\n"
-donnees_a_enregistrer += f"- Titre de l'onglet : {titre_onglet}\n"
+print(f"\n✅ {len(liens)} lien(s) détecté(s) sur la page :\n")
 
-if balise_h1:
-    donnees_a_enregistrer += f"- Titre h1 : {balise_h1.text}\n"
-else:
-    donnees_a_enregistrer += "- Titre h1 : Aucun h1 trouvé sur cette page\n"
+# Boucle pour afficher et stocker chaque lien trouvé
+liste_liens = ""
+for index, lien in enumerate(liens, start=1):
+    adresse = lien.get('href')
+    texte = lien.text.strip() if lien.text else "Texte vide"
+    
+    ligne = f"{index}. [{texte}] -> {adresse}\n"
+    print(ligne, end="")
+    liste_liens += ligne
 
-# Écriture automatique dans un fichier texte
+# Sauvegarde des liens dans le fichier texte
 with open("resultats.txt", "w", encoding="utf-8") as fichier:
-    fichier.write(donnees_a_enregistrer)
+    fichier.write(f"Liens extraits de {url} :\n" + liste_liens)
 
-print("\n✅ Extraction réussie ! Les données ont été sauvegardées dans 'resultats.txt'.")
+print("\n💾 Tous les liens ont été enregistrés dans 'resultats.txt'.")

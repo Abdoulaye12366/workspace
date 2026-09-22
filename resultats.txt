@@ -1,3 +1,2 @@
-Résultats du scraping pour https://google.com :
-- Titre de l'onglet : Google
-- Titre h1 : Aucun h1 trouvé sur cette page
+Liens extraits de https://example.com :
+1. [Learn more] -> https://iana.org/domains/example
